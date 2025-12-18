@@ -154,28 +154,6 @@
             line-height: 1.6;
         }
 
-        .filter-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .filter-btn {
-            background: none;
-            border: 1px solid #e5e5e5;
-            padding: 6px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            color: var(--text-secondary);
-            transition: var(--transition);
-        }
-
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--text-main);
-            color: #fff;
-            border-color: var(--text-main);
-        }
-
         .view-more-container {
             width: 100%;
             display: flex;
@@ -491,11 +469,6 @@
         <section id="paintings">
             <div class="section-title">
                 2D Art
-                <div class="filter-buttons">
-                    <button class="filter-btn active" onclick="filterGallery('all', 'paintings')">All</button>
-                    <button class="filter-btn" onclick="filterGallery('portrait', 'paintings')">Portrait</button>
-                    <button class="filter-btn" onclick="filterGallery('concept', 'paintings')">Concept</button>
-                </div>
             </div>
             
             <p class="section-intro">
@@ -596,35 +569,15 @@
             
             if (grid.classList.contains('collapsed')) {
                 grid.classList.remove('collapsed');
-                btn.textContent = "Show Less"; // English translation
+                btn.textContent = "Show Less"; 
             } else {
                 grid.classList.add('collapsed');
-                btn.textContent = "View More"; // English translation
+                btn.textContent = "View More"; 
                 document.getElementById('models').scrollIntoView({behavior: 'smooth'});
             }
         }
 
-        // --- 3. Filter Logic (2D Art) ---
-        function filterGallery(category, sectionId) {
-            const container = document.getElementById(sectionId + '-grid');
-            const items = container.getElementsByClassName('gallery-item');
-            const buttons = document.querySelectorAll(`#${sectionId} .filter-btn`);
-            
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            for (let item of items) {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                    item.style.opacity = '0';
-                    setTimeout(() => item.style.opacity = '1', 50);
-                } else {
-                    item.style.display = 'none';
-                }
-            }
-        }
-
-        // --- 4. Lightbox Logic ---
+        // --- 3. Lightbox Logic ---
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const prevBtn = document.querySelector('.prev-btn');
@@ -695,7 +648,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
