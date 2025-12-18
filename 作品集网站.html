@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Qi | Portfolio</title>
+    <style>
+        /* --- 1. Global Settings & Apple Style Variables --- */
+        :root {
+            --bg-color: #FBFBFB; 
+            --sidebar-bg: #FFFFFF;
+            --text-main: #1D1D1F; 
+            --text-secondary: #86868B;
+            --accent-color: #0071E3;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            --font-stack: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- 2. Layout Structure (Sidebar + Main Content) --- */
+        
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: var(--sidebar-bg);
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; 
+            border-right: 1px solid rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+
+        .logo-area { margin-bottom: 60px; }
+
+        .logo-gif {
+            max-width: 100%; 
+            height: auto;    
+            border-radius: 12px;
+            display: block; 
+        }
+
+        .nav-links li { margin-bottom: 24px; }
+
+        .nav-links a {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+            transform: translateX(5px);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            font-size: 12px; 
+            color: #ccc;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            padding: 80px 10%;
+        }
+
+        /* --- 3. Responsive Design --- */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+                padding: 15px 20px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-right: none;
+                border-bottom: 1px solid rgba(0,0,0,0.05);
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+            }
+
+            .logo-area { margin-bottom: 0; display: flex; align-items: center; gap: 10px; }
+            .logo-gif { width: auto; height: 32px; margin-bottom: 0; border-radius: 6px;}
+            
+            .nav-links { display: flex; gap: 20px; }
+            .nav-links li { margin-bottom: 0; }
+            .nav-links a { font-size: 14px; }
+            .nav-links a:hover { transform: none; }
+
+            .sidebar-footer { display: none; }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 100px 20px 40px;
+            }
+        }
+
+        /* --- 4. Common Components --- */
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* Section Intro Style */
+        .section-intro {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: -25px; 
+            margin-bottom: 40px; 
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            background: none;
+            border: 1px solid #e5e5e5;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--text-main);
+            color: #fff;
+            border-color: var(--text-main);
+        }
+
+        .view-more-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: 1px solid #d2d2d7;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-size: 14px;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-btn:hover {
+            background: #f5f5f7;
+            border-color: #86868b;
+        }
+
+        section {
+            margin-bottom: 120px;
+            scroll-margin-top: 100px;
+        }
+
+        /* --- 5. About Section --- */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .bio-text h1 {
+            font-size: 48px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .bio-text .subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .bio-desc {
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .contact-email {
+            font-weight: 600;
+            color: var(--text-main);
+            display: inline-block;
+            margin-top: 10px;
+            cursor: default; 
+        }
+
+        .about-img {
+            width: 100%;       
+            height: auto;      
+            border-radius: 2px;
+            box-shadow: var(--shadow-card);
+            display: block;    
+        }
+
+        @media (max-width: 768px) {
+            .about-container { grid-template-columns: 1fr; }
+            .bio-text h1 { font-size: 36px; }
+            .about-img { height: auto; }
+        }
+
+        /* --- 6. Gallery Grid --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #eee;
+        }
+
+        /* Collapse Logic */
+        .gallery-grid.collapsed .gallery-item:nth-child(n+4) {
+            display: none;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        @media (max-width: 1024px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+
+        /* --- 7. Comics Stream --- */
+        .comic-stream {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .comic-panel {
+            width: 100%;
+            cursor: zoom-in;
+            box-shadow: var(--shadow-card);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .comic-panel:hover { transform: translateY(-5px); }
+
+        /* --- 8. Lightbox --- */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active { display: flex; opacity: 1; }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
+            color: var(--text-main);
+            transition: opacity 0.2s;
+        }
+        .lightbox-nav:hover { opacity: 0.6; }
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        /* --- 9. Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-secondary);
+            font-size: 12px;
+            border-top: 1px solid #eee;
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo-area">
+            <img src="images/logo/1.gif" alt="Logo" class="logo-gif">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#about" class="active">About</a></li>
+            <li><a href="#models">3D Modeling</a></li>
+            <li><a href="#paintings">2D Art</a></li>
+            <li><a href="#comics">Comics</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            © 2026 You Qi
+        </div>
+    </nav>
+
+    <main class="main-content">
+
+        <section id="about">
+            <div class="about-container">
+                <div class="bio-text">
+                    <h1>You Qi</h1>
+                    <p class="subtitle">Digital Media Artist / 3D Modeling / Comic Creation</p>
+                    <p class="bio-desc">
+                        Hello, I am You Qi. I will graduate from Xiamen University in June 2026 with a major in Digital Media Art.<br><br>
+                        I go beyond traditional 3D modeling, dedicated to exploring unique aesthetic styles. I excel at combining advanced AI workflows with solid hand-drawing skills to create works that possess both technical precision and artistic warmth.
+                    </p>
+                    <p class="contact-email">Email: chonkgator@qq.com</p>
+                </div>
+                <img src="images/about/1.png" alt="You Qi" class="about-img">
+            </div>
+        </section>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 80px;">
+
+        <section id="models">
+            <div class="section-title">
+                3D Modeling
+            </div>
+            
+            <p class="section-intro">
+                Utilizing Midjourney + Rodin to create a highly efficient 3D modeling workflow. A model can be produced in under ten minutes, facilitating visualization for traditional 3D modeling and clearly advancing projects.
+            </p>
+
+            <div class="gallery-grid collapsed" id="models-grid">
+                
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="images/3d/1.jpg" alt="Work 1">
+                    <div class="gallery-overlay"><h4>Work #01</h4></div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="images/3d/2.jpg" alt="Work 2">
+                    <div class="gallery-overlay"><h4>Work #02</h4></div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="images/3d/3.jpg" alt="Work 3">
+                    <div class="gallery-overlay"><h4>Work #03</h4></div>
+                </div>
+
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/4.jpg" alt="Work 4"><div class="gallery-overlay"><h4>Work #04</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/5.jpg" alt="Work 5"><div class="gallery-overlay"><h4>Work #05</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/6.jpg" alt="Work 6"><div class="gallery-overlay"><h4>Work #06</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/7.jpg" alt="Work 7"><div class="gallery-overlay"><h4>Work #07</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/8.jpg" alt="Work 8"><div class="gallery-overlay"><h4>Work #08</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/9.jpg" alt="Work 9"><div class="gallery-overlay"><h4>Work #09</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/10.jpg" alt="Work 10"><div class="gallery-overlay"><h4>Work #10</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/11.jpg" alt="Work 11"><div class="gallery-overlay"><h4>Work #11</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/12.jpg" alt="Work 12"><div class="gallery-overlay"><h4>Work #12</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/13.jpg" alt="Work 13"><div class="gallery-overlay"><h4>Work #13</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/14.jpg" alt="Work 14"><div class="gallery-overlay"><h4>Work #14</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/15.jpg" alt="Work 15"><div class="gallery-overlay"><h4>Work #15</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/16.jpg" alt="Work 16"><div class="gallery-overlay"><h4>Work #16</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/17.jpg" alt="Work 17"><div class="gallery-overlay"><h4>Work #17</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/18.jpg" alt="Work 18"><div class="gallery-overlay"><h4>Work #18</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/19.jpg" alt="Work 19"><div class="gallery-overlay"><h4>Work #19</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/20.jpg" alt="Work 20"><div class="gallery-overlay"><h4>Work #20</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/21.jpg" alt="Work 21"><div class="gallery-overlay"><h4>Work #21</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/22.jpg" alt="Work 22"><div class="gallery-overlay"><h4>Work #22</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/23.jpg" alt="Work 23"><div class="gallery-overlay"><h4>Work #23</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/24.jpg" alt="Work 24"><div class="gallery-overlay"><h4>Work #24</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/25.jpg" alt="Work 25"><div class="gallery-overlay"><h4>Work #25</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/26.jpg" alt="Work 26"><div class="gallery-overlay"><h4>Work #26</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/27.jpg" alt="Work 27"><div class="gallery-overlay"><h4>Work #27</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/28.jpg" alt="Work 28"><div class="gallery-overlay"><h4>Work #28</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/29.jpg" alt="Work 29"><div class="gallery-overlay"><h4>Work #29</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/30.jpg" alt="Work 30"><div class="gallery-overlay"><h4>Work #30</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/31.jpg" alt="Work 31"><div class="gallery-overlay"><h4>Work #31</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/32.jpg" alt="Work 32"><div class="gallery-overlay"><h4>Work #32</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/33.jpg" alt="Work 33"><div class="gallery-overlay"><h4>Work #33</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/34.jpg" alt="Work 34"><div class="gallery-overlay"><h4>Work #34</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/35.jpg" alt="Work 35"><div class="gallery-overlay"><h4>Work #35</h4></div></div>
+                <div class="gallery-item" onclick="openLightbox(this)"><img src="images/3d/36.jpg" alt="Work 36"><div class="gallery-overlay"><h4>Work #36</h4></div></div>
+
+            </div>
+
+            <div class="view-more-container">
+                <button class="toggle-btn" id="models-toggle-btn" onclick="toggleModels()">View More</button>
+            </div>
+        </section>
+
+        <section id="paintings">
+            <div class="section-title">
+                2D Art
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterGallery('all', 'paintings')">All</button>
+                    <button class="filter-btn" onclick="filterGallery('portrait', 'paintings')">Portrait</button>
+                    <button class="filter-btn" onclick="filterGallery('concept', 'paintings')">Concept</button>
+                </div>
+            </div>
+            
+            <p class="section-intro">
+                I also create 2D illustrations, avoiding excessive reliance on AI to craft works with artistic warmth.
+            </p>
+
+            <div class="gallery-grid" id="paintings-grid">
+                
+                <div class="gallery-item" data-category="portrait" onclick="openLightbox(this)">
+                    <img src="images/painting/1.png" alt="Painting 1">
+                    <div class="gallery-overlay"><h4>Illustration #01</h4></div>
+                </div>
+                <div class="gallery-item" data-category="concept" onclick="openLightbox(this)">
+                    <img src="images/painting/2.png" alt="Painting 2">
+                    <div class="gallery-overlay"><h4>Illustration #02</h4></div>
+                </div>
+                <div class="gallery-item" data-category="portrait" onclick="openLightbox(this)">
+                    <img src="images/painting/3.png" alt="Painting 3">
+                    <div class="gallery-overlay"><h4>Illustration #03</h4></div>
+                </div>
+                <div class="gallery-item" data-category="concept" onclick="openLightbox(this)">
+                    <img src="images/painting/4.png" alt="Painting 4">
+                    <div class="gallery-overlay"><h4>Illustration #04</h4></div>
+                </div>
+                <div class="gallery-item" data-category="portrait" onclick="openLightbox(this)">
+                    <img src="images/painting/5.png" alt="Painting 5">
+                    <div class="gallery-overlay"><h4>Illustration #05</h4></div>
+                </div>
+                <div class="gallery-item" data-category="concept" onclick="openLightbox(this)">
+                    <img src="images/painting/6.png" alt="Painting 6">
+                    <div class="gallery-overlay"><h4>Illustration #06</h4></div>
+                </div>
+                <div class="gallery-item" data-category="portrait" onclick="openLightbox(this)">
+                    <img src="images/painting/7.png" alt="Painting 7">
+                    <div class="gallery-overlay"><h4>Illustration #07</h4></div>
+                </div>
+                <div class="gallery-item" data-category="concept" onclick="openLightbox(this)">
+                    <img src="images/painting/8.png" alt="Painting 8">
+                    <div class="gallery-overlay"><h4>Illustration #08</h4></div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="comics">
+            <div class="section-title">Comics</div>
+            
+            <p class="section-intro">
+                The comic series is currently under development. It is expected to be completed and displayed here upon graduation.
+            </p>
+
+            <div class="comic-stream">
+                <img src="https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?q=80&w=1000&auto=format&fit=crop" class="comic-panel" onclick="openComicLightbox(0)">
+                <img src="https://images.unsplash.com/photo-1612036781757-33d902787d4d?q=80&w=1000&auto=format&fit=crop" class="comic-panel" onclick="openComicLightbox(1)">
+                <img src="https://images.unsplash.com/photo-1612036782595-64735c24681f?q=80&w=1000&auto=format&fit=crop" class="comic-panel" onclick="openComicLightbox(2)">
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 You Qi. All rights reserved.</p>
+            <p>ICP No. XXXXXXXX-1</p>
+        </footer>
+
+    </main>
+
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <div class="lightbox-nav prev-btn" onclick="changeSlide(-1)">&#10094;</div>
+        <img src="" alt="Full View" class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-nav next-btn" onclick="changeSlide(1)">&#10095;</div>
+    </div>
+
+    <script>
+        // --- 1. Navigation Highlight ---
+        const sections = document.querySelectorAll("section");
+        const navLi = document.querySelectorAll(".nav-links li a");
+
+        window.onscroll = () => {
+            var current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+            navLi.forEach((li) => {
+                li.classList.remove("active");
+                if (li.getAttribute("href").includes(current)) {
+                    li.classList.add("active");
+                }
+            });
+        };
+
+        // --- 2. 3D Gallery Toggle Logic ---
+        function toggleModels() {
+            const grid = document.getElementById('models-grid');
+            const btn = document.getElementById('models-toggle-btn');
+            
+            if (grid.classList.contains('collapsed')) {
+                grid.classList.remove('collapsed');
+                btn.textContent = "Show Less"; // English translation
+            } else {
+                grid.classList.add('collapsed');
+                btn.textContent = "View More"; // English translation
+                document.getElementById('models').scrollIntoView({behavior: 'smooth'});
+            }
+        }
+
+        // --- 3. Filter Logic (2D Art) ---
+        function filterGallery(category, sectionId) {
+            const container = document.getElementById(sectionId + '-grid');
+            const items = container.getElementsByClassName('gallery-item');
+            const buttons = document.querySelectorAll(`#${sectionId} .filter-btn`);
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            for (let item of items) {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.opacity = '1', 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            }
+        }
+
+        // --- 4. Lightbox Logic ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let currentImageGroup = [];
+        let currentIndex = 0;
+
+        function openLightbox(element) {
+            if(element.style.display === 'none') return;
+
+            const img = element.querySelector('img');
+            const section = element.closest('section');
+            const allImgs = section.querySelectorAll('.gallery-item img');
+            
+            currentImageGroup = [];
+            allImgs.forEach(i => {
+                if(i.closest('.gallery-item').style.display !== 'none'){
+                    currentImageGroup.push(i.src);
+                }
+            });
+
+            currentIndex = currentImageGroup.indexOf(img.src);
+
+            lightboxImg.src = img.src;
+            lightbox.classList.add('active');
+            prevBtn.style.display = 'block';
+            nextBtn.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openComicLightbox(index) {
+            const comics = document.querySelectorAll('.comic-stream img');
+            currentImageGroup = Array.from(comics).map(img => img.src);
+            currentIndex = index;
+            lightboxImg.src = currentImageGroup[currentIndex];
+            lightbox.classList.add('active');
+            prevBtn.style.display = 'block';
+            nextBtn.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeSlide(direction) {
+            currentIndex += direction;
+            if (currentIndex >= currentImageGroup.length) currentIndex = 0;
+            else if (currentIndex < 0) currentIndex = currentImageGroup.length - 1;
+
+            lightboxImg.style.opacity = 0;
+            setTimeout(() => {
+                lightboxImg.src = currentImageGroup[currentIndex];
+                lightboxImg.style.opacity = 1;
+            }, 200);
+        }
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft' && prevBtn.style.display !== 'none') changeSlide(-1);
+            if (e.key === 'ArrowRight' && nextBtn.style.display !== 'none') changeSlide(1);
+        });
+    </script>
+</body>
+</html>
