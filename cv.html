@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Qi - Digital Product Designer</title>
+    <style>
+        /* --- 核心基础设置 (Apple Style Base) --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #0066cc;
+            --section-spacing: 60px;
+            --border-color: #d2d2d7;
+            --bg-secondary: #f5f5f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.47059;
+            font-size: 17px;
+            letter-spacing: -0.022em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        /* --- 头部设计 (Header) --- */
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 48px;
+            line-height: 1.08349;
+            font-weight: 600;
+            letter-spacing: -0.003em;
+            margin-bottom: 12px;
+            color: #000;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            line-height: 1.16667;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .contact-info {
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-info a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            cursor: text;
+            pointer-events: none;
+        }
+
+        .portfolio-wrapper {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .portfolio-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #86868b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .portfolio-url-display {
+            display: inline-block;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-family: "SF Mono", "Menlo", Monaco, Consolas, "Courier New", monospace;
+            font-size: 15px;
+            border: 1px solid rgba(0,0,0,0.04);
+            user-select: all;
+        }
+
+        /* --- 版块通用样式 --- */
+        section {
+            margin-bottom: var(--section-spacing);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: var(--section-spacing);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 28px;
+            line-height: 1.14286;
+            font-weight: 600;
+            letter-spacing: .007em;
+            margin-bottom: 30px;
+            color: #000;
+        }
+
+        h3 {
+            font-size: 19px;
+            line-height: 1.21053;
+            font-weight: 600;
+            letter-spacing: .012em;
+            margin-bottom: 4px;
+            color: #000;
+        }
+
+        /* --- 具体内容样式 --- */
+        .statement-text {
+            font-size: 19px;
+            line-height: 1.481;
+            font-weight: 400;
+            color: var(--text-primary);
+        }
+
+        .item-group {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .item-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .date-col {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding-top: 4px;
+        }
+
+        .content-col p {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #424245;
+        }
+        
+        .content-col ul {
+            list-style: none;
+            margin-top: 8px;
+        }
+
+        .content-col li {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 6px;
+            font-size: 15px;
+            color: #424245;
+        }
+
+        .content-col li::before {
+            content: "·";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .sub-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* --- 技能标签样式 --- */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-tag {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 36px; }
+            .item-group { grid-template-columns: 1fr; gap: 8px; }
+            .date-col { font-size: 13px; margin-bottom: 4px; }
+            .portfolio-url-display { font-size: 13px; padding: 10px 16px; word-break: break-all;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>You Qi</h1>
+        <div class="subtitle">Digital Product Designer / Character IP Developer</div>
+        
+        <div class="contact-info">
+            <span>Guangzhou / Xiamen, China</span>
+            <span>+86 187-5025-5714</span>
+            <span>chonkgator@qq.com</span>
+        </div>
+
+        <div class="portfolio-wrapper">
+            <span class="portfolio-label">Online Portfolio</span>
+            <div class="portfolio-url-display">
+                gator2213.github.io/gator.github.io
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <h2>Professional Profile</h2>
+        <p class="statement-text">
+            I am a Digital Product Designer specializing in <strong>Character IP Development and Art Toy Design</strong>. Combining traditional artistic aesthetics with exponential AI efficiency, I operate as a "micro-studio"—capable of pitching, visualizing, and 3D-prototyping complete blind-box matrices at an unprecedented pace. I bridge the gap between abstract 2D concepts and tangible commercial viability.
+        </p>
+    </section>
+
+    <section>
+        <h2>Selected Projects</h2>
+
+        <div class="item-group">
+            <div class="date-col">Jan 2026 – Present</div>
+            <div class="content-col">
+                <h3>"Mecha-Mage" Art Toy Matrix</h3>
+                <span class="sub-info">Creator & Technical Art Director (Self-Directed)</span>
+                <ul>
+                    <li>Engineered a highly scalable AI-integrated workflow (Midjourney + Rodin) to transform 2D character concepts into mass 3D prototypes.</li>
+                    <li><strong>Generated a complete, cohesive lineup of 12 blind-box character variations in just 3 days</strong>, reducing traditional solo modeling time by over 90%.</li>
+                    <li>Applied systematic IP development principles to ensure silhouette consistency, color theory distribution, and manufacturing viability across the entire product matrix.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="item-group">
+            <div class="date-col">March 2025</div>
+            <div class="content-col">
+                <h3>Minecraft Mod: "All the Love of Ted"</h3>
+                <span class="sub-info">Game Artist & Developer</span>
+                <ul>
+                    <li>Designed and implemented custom original decorative dolls and weaponry within strict technical and pixel-art constraints.</li>
+                    <li>Published on CurseForge and achieved <strong>over 1,000+ downloads</strong>, demonstrating the ability to design appealing character assets that resonate with an active player base.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="item-group">
+            <div class="date-col">Sept 2024</div>
+            <div class="content-col">
+                <h3>Satirical Animation Series</h3>
+                <span class="sub-info">Director & Animator</span>
+                <ul>
+                    <li>Directed two animated shorts exploring ironic themes, showcasing strong narrative storytelling and pre-production conceptualization skills.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Experience</h2>
+
+        <div class="item-group">
+            <div class="date-col">Sept 2025</div>
+            <div class="content-col">
+                <h3>Commercial Pattern Designer (Intern)</h3>
+                <span class="sub-info">Jinjiang Chuangping Technology Co., Ltd.</span>
+                <ul>
+                    <li>Engineered an AI-assisted workflow using Midjourney to drastically accelerate commercial asset generation, delivering <strong>over 20 distinct pattern designs in just 3 weeks</strong>.</li>
+                    <li>Ensured strict alignment with client specifications and market trends. The commercial implementation of these rapid-iteration designs led to a <strong>20% increase in monthly sales volume</strong> compared to the previous month.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="item-group">
+            <div class="date-col">July 2023 – Aug 2023</div>
+            <div class="content-col">
+                <h3>Cinematographer & Sound Recordist</h3>
+                <span class="sub-info">Documentary Project "Xinghui" (Milan Design Week Context)</span>
+                <ul>
+                    <li>Produced a promotional documentary for a tea house. Gained a profound understanding of lighting, mood, and environmental storytelling, which directly informs how I present and render 3D Art Toys.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Education</h2>
+        <div class="item-group">
+            <div class="date-col">2022 – 2026 (Exp.)</div>
+            <div class="content-col">
+                <h3>BA (Hons) Digital Media Arts</h3>
+                <span class="sub-info">University for the Creative Arts (UCA), UK</span>
+                <span class="sub-info" style="margin-top:4px; display:block;">&</span>
+                <h3>BA Digital Media Arts</h3>
+                <span class="sub-info">Institute of Creativity and Innovation, Xiamen University, China</span>
+                <p style="margin-top: 8px; font-size: 14px; color: var(--text-secondary);">Dual Degree Program</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Skills & Tools</h2>
+        <div class="skills-grid">
+            <span class="skill-tag">Character IP Development</span>
+            <span class="skill-tag">Art Toy / Blind Box Design</span>
+            <span class="skill-tag">AI Workflows (Midjourney/Rodin)</span>
+            <span class="skill-tag">Rapid 3D Prototyping</span>
+            <span class="skill-tag">3D Modeling</span>
+            <span class="skill-tag">Pixel Art</span>
+            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Adobe Photoshop</span>
+        </div>
+    </section>
+    
+    <footer style="text-align: center; color: var(--text-secondary); font-size: 12px; margin-top: 40px;">
+        &copy; 2026 You Qi. </footer>
+</div>
+
+</body>
+</html>
